@@ -67,9 +67,11 @@ declare class BruteforceSearch {
   loadIndex(): void;
 }
 
-declare const hnswlib = {
-  HierarchicalNSW,
-  InnerProductSpace,
-  L2Space,
-  BruteforceSearch,
-};
+declare interface HnswlibImpl {
+  HierarchicalNSW: typeof HierarchicalNSW;
+  InnerProductSpace: typeof InnerProductSpace;
+  L2Space: typeof L2Space;
+  BruteforceSearch: typeof BruteforceSearch;
+}
+
+declare const hnswlib: HnswlibImpl;
