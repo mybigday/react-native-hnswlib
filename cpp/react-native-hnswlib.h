@@ -5,7 +5,7 @@
 #define HNSWLIB_H
 
 namespace RNHnswlib {
-void install(jsi::Runtime &runtime,
+void install(jsi::Runtime *runtime,
              std::shared_ptr<facebook::react::CallInvoker> jsCallInvoker);
 }
 
