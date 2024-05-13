@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.turbomodule.core.CallInvokerHolderImpl;
 
 public class HnswlibModule extends HnswlibSpec {
   public static final String NAME = "Hnswlib";
