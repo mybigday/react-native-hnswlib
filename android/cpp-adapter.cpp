@@ -6,7 +6,7 @@
 
 extern "C"
 JNIEXPORT jdouble JNICALL
-Java_com_hnswlib_HnswlibModule_nativeinstall(JNIEnv *env, jclass _, jlong jsiPtr, jobject jsCallInvokerHolder) {
+Java_com_hnswlib_HnswlibModule_nativeInstall(JNIEnv *env, jclass _, jlong jsiPtr, jobject jsCallInvokerHolder) {
   auto runtime { reinterpret_cast<facebook::jsi::Runtime*>(jsiPtr) };
   auto jsCallInvoker {
     facebook::jni::alias_ref<facebook::react::CallInvokerHolder::javaobject>{

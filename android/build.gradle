@@ -50,29 +50,10 @@ static def findNodeModules(baseDir) {
     }
     basePath = basePath.getParent()
   }
-  throw new GradleException("jsiudp: Failed to find node_modules/ path!")
-}
-
-def isNewArchitectureEnabled() {
-  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
+  throw new GradleException("Failed to find node_modules/ path!")
 }
 
 apply plugin: "com.android.library"
-
-
-def appProject = rootProject.allprojects.find { it.plugins.hasPlugin('com.android.application') }
-
-if (isNewArchitectureEnabled()) {
-  apply plugin: "com.facebook.react"
-}
-
-def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["JsiUdp_" + name]
-}
-
-def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["JsiUdp_" + name]).toInteger()
-}
 
 def reactNativeArchitectures() {
   def value = project.getProperties().get("reactNativeArchitectures")
@@ -80,7 +61,7 @@ def reactNativeArchitectures() {
 }
 
 def nodeModules = findNodeModules(projectDir)
-logger.warn("jsiudp: node_modules/ found at: ${nodeModules}")
+logger.warn("node_modules/ found at: ${nodeModules}")
 
 def sourceBuild = false
 def defaultDir
@@ -203,8 +184,8 @@ android {
       prefabPublishing true
     }
     prefab {
-      jsiudp {
-        headers "${project.buildDir}/headers/jsiudp/"
+      rnhnswlib {
+        headers "${project.buildDir}/headers/rnhnswlib/"
       }
     }
   }
@@ -242,7 +223,7 @@ dependencies {
   implementation "com.facebook.react:react-native:+"
 
   if (REACT_NATIVE_VERSION < 71) {
-    logger.warn("jsiudp: Extracting files from AAR (pre RN 0.71)")
+    logger.warn("Extracting files from AAR (pre RN 0.71)")
     //noinspection GradleDynamicVersion
     extractHeaders("com.facebook.fbjni:fbjni:0.2.2:headers")
     //noinspection GradleDynamicVersion
@@ -252,14 +233,14 @@ dependencies {
   if (!sourceBuild) {
     def rnAarMatcher = "**/react-native/**/*${buildType}.aar"
     if (REACT_NATIVE_VERSION < 69) {
-      logger.warn("jsiudp: aar state pre 69. match **/**/*.aar")
+      logger.warn("aar state pre 69. match **/**/*.aar")
       rnAarMatcher = "**/**/*.aar"
     } else if (REACT_NATIVE_VERSION >= 71) {
-      logger.warn("jsiudp: aar state post 70, do nothing")
+      logger.warn("aar state post 70, do nothing")
       return
     }
     def rnAAR = fileTree("${nodeModules}/react-native/android").matching({ it.include rnAarMatcher }).singleFile
-    logger.warn("jsiudp: Extracting JNI files (pre RN 0.71) ${rnAAR}")
+    logger.warn("Extracting JNI files (pre RN 0.71) ${rnAAR}")
     extractJNI(files(rnAAR))
   }
 }
@@ -325,7 +306,7 @@ if (ENABLE_PREFAB) {
   // Package all the cpp code in a flattened directory structure
   task prepareHeaders(type: Copy) {
     from fileTree('../cpp').filter { it.isFile() }
-    into "${project.buildDir}/headers/jsiudp/react-native-jsi-udp/"
+    into "${project.buildDir}/headers/rnhnswlib/react-native-hnswlib/"
     includeEmptyDirs = false
   }
   preBuild.dependsOn(prepareHeaders)
